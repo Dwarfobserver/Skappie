@@ -127,9 +127,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\bytes_span.cpp" />
+    <ClCompile Include="src\messages\login.cpp" />
+    <ClCompile Include="src\messages\tags.cpp" />
+    <ClCompile Include="src\messages\wrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\bytes_span.hpp" />
+    <ClInclude Include="include\messages\login.hpp" />
+    <ClInclude Include="include\messages\tags.hpp" />
+    <ClInclude Include="include\messages\wrapper.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
