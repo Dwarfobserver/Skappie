@@ -15,6 +15,8 @@ namespace sk {
 		std::byte* begin;
 		std::byte* end;
 
+		bytes_span() : begin{ nullptr }, end{ nullptr } {}
+
 		bytes_span(void const* begin, void const* end) :
 			begin(reinterpret_cast<std::byte*>(const_cast<void*>(begin))),
 			end  (reinterpret_cast<std::byte*>(const_cast<void*>(end)))
@@ -23,12 +25,17 @@ namespace sk {
 			begin(reinterpret_cast<std::byte*>(const_cast<void*>(begin))),
 			end(this->begin + size)
 		{}
+		explicit bytes_span(void const* begin, unsigned int size) :
+			begin(reinterpret_cast<std::byte*>(const_cast<void*>(begin))),
+			end(this->begin + size)
+		{}
 
 		/// Returns the gap between end and begin. Can be negative.
 		int size() const { return static_cast<int>(end - begin); }
 
 		/// Indicates if the end pointer is ahead of (or the same as) the begin pointer.
-		bool is_valid() const { return size() >= 0; }
+		/// Also, ensures that begin is different than nullptr.
+		bool is_valid() const { return begin != nullptr && size() >= 0; }
 
 		/// Extract data without advancing 'begin'.
 		template <class T>
@@ -41,6 +48,15 @@ namespace sk {
 		*this >> data;
 		begin = b;
 		return *this;
+	}
+
+	// serialized_size(data) functions are used to anticipate the size taken by overloads
+
+	inline int serialized_size(std::string const& str) {
+		return sizeof(uint32_t) + str.size();
+	}
+	inline int serialized_size(std::vector<std::byte> const& bytes) {
+		return sizeof(uint32_t) + bytes.size();
 	}
 
 	// Convenient templates to implement basic types
@@ -139,5 +155,8 @@ namespace sk {
 
 	bytes_span& operator<<(bytes_span& span, std::vector<std::byte> const& data);
 	bytes_span& operator>>(bytes_span& span, std::vector<std::byte>& data);
-
+	/*
+	bytes_span& operator<<(bytes_span& span, bytes_span const& data);
+	bytes_span& operator>>(bytes_span& span, bytes_span& data);
+	*/
 }

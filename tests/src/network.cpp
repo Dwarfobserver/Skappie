@@ -26,7 +26,10 @@ TEST_CASE("network asio synchronous UDP", "[network]") {
 		sendingSocket.send_to(asio::buffer(buffer), { localhost, 54'322 });
 
 		int bufferCopy[4];
-		receivingSocket.receive(asio::buffer(bufferCopy));
+		udp::endpoint remoteEndpoint;
+		receivingSocket.receive_from(asio::buffer(bufferCopy), remoteEndpoint);
+
+		REQUIRE(remoteEndpoint == udp::endpoint{ localhost, 54'321 });
 
 		int diff = memcmp(buffer, bufferCopy, 4 * sizeof(int));
 		REQUIRE(diff == 0);

@@ -1,7 +1,7 @@
 
 #include "messages/tags.hpp"
-#include <cassert>
 #include <unordered_map>
+#include "core.hpp"
 
 
 namespace sk::msg {
@@ -9,7 +9,7 @@ namespace sk::msg {
 	namespace tag {
 
 		family tag::family_of(tag_type tag) {
-			assert(is_valid(tag) && "Invalid tag value");
+			SK_ASSERT(is_valid(tag) && "Invalid tag value");
 
 			if (tag < _state_sync_end)
 				return family::state_sync;
