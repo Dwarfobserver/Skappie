@@ -76,10 +76,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)\tests\bin\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\tests\build\$(Configuration)\</IntDir>
+    <LibraryPath>$(SolutionDir)\common\lib\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)\tests\bin\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\tests\build\$(Configuration)\</IntDir>
+    <LibraryPath>$(SolutionDir)\common\lib\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -93,6 +95,7 @@
     <Link>
       <SubSystem>
       </SubSystem>
+      <AdditionalDependencies>common.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -118,6 +121,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <SubSystem>
       </SubSystem>
+      <AdditionalDependencies>common.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
