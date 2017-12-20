@@ -22,6 +22,8 @@ namespace sk {
 		public:
 			packet();
 
+			void clear();
+
 			/// Returns the messages stored in the packet.
 			std::vector<msg::wrapper> extract_messages() const;
 

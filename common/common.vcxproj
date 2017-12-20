@@ -131,7 +131,11 @@
     <ClCompile Include="src\messages\login.cpp" />
     <ClCompile Include="src\messages\tags.cpp" />
     <ClCompile Include="src\messages\wrapper.cpp" />
+    <ClCompile Include="src\network\context_info.cpp" />
+    <ClCompile Include="src\network\request.cpp" />
+    <ClCompile Include="src\network\udp_socket.cpp" />
     <ClCompile Include="src\network\packet.cpp" />
+    <ClCompile Include="src\terminal.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\bytes_span.hpp" />
@@ -139,7 +143,11 @@
     <ClInclude Include="include\messages\login.hpp" />
     <ClInclude Include="include\messages\tags.hpp" />
     <ClInclude Include="include\messages\wrapper.hpp" />
+    <ClInclude Include="include\network\context_info.hpp" />
     <ClInclude Include="include\network\packet.hpp" />
+    <ClInclude Include="include\network\request.hpp" />
+    <ClInclude Include="include\network\udp_socket.hpp" />
+    <ClInclude Include="include\terminal.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

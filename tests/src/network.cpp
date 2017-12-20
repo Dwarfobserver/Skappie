@@ -1,13 +1,15 @@
 
 #include <catch.hpp>
-#include <asio/io_service.hpp>
-#include <asio/ip/udp.hpp>
-#include <asio/buffer.hpp>
+#include "network/udp_socket.hpp"
+#include "network/packet.hpp"
+#include "messages/login.hpp"
+#include "messages/wrapper.hpp"
+
 
 using namespace std::literals;
-using asio::ip::udp;
 
 TEST_CASE("network asio synchronous UDP", "[network]") {
+	using asio::ip::udp;
 	try
 	{
 		asio::io_service ioService;
@@ -38,4 +40,41 @@ TEST_CASE("network asio synchronous UDP", "[network]") {
 	{
 		FAIL(e.what());
 	}
+}
+
+TEST_CASE("network socket basics", "[network]") {
+
+	std::byte buffer[100];
+	const sk::bytes_span span{ buffer, sizeof(buffer) };
+
+	const auto localhost = asio::ip::address::from_string("127.0.0.1");
+	sk::net::address_type addr1{ localhost, 52'601 };
+	sk::net::address_type addr2{ localhost, 52'602 };
+
+	sk::net::udp_socket socket1;
+	sk::net::udp_socket socket2;
+	socket1.bind(addr1.port());
+	socket2.bind(addr2.port());
+
+	sk::msg::login_request request;
+	request.stamp = 12;
+	request.nickname = "xX_0bl1t3r4t0r_Xx";
+
+	socket1.push({ request, span }, addr2);
+	socket1.send_packets();
+
+	sk::net::packet packet;
+	sk::net::address_type addr;
+
+	while (!socket2.try_get_packet(packet, addr)) {}
+
+	REQUIRE(addr == addr1);
+	auto wrappers = packet.extract_messages();
+
+	REQUIRE(wrappers.size() == 1);
+
+	sk::msg::login_request requestCopy;
+	wrappers[0].extract(requestCopy);
+
+	REQUIRE(request.nickname == requestCopy.nickname);
 }

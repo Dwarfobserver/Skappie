@@ -92,6 +92,8 @@ TEST_CASE("packetage messages", "[serialization]") {
 	// Serialization
 
 	span << packet;
+	REQUIRE(span.begin - buffer == sk::serialized_size(packet));
+
 	span.begin = buffer;
 
 	sk::net::packet packetCopy;

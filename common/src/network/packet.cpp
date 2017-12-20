@@ -41,6 +41,12 @@ namespace sk {
 			header_{ 0 }
 		{}
 
+		void packet::clear() {
+			header_.messagesCount = 0;
+			body_.clear();
+			span_.begin = body_.data();
+		}
+
 		std::vector<msg::wrapper> packet::extract_messages() const {
 			std::vector<msg::wrapper> wrappers;
 			wrappers.reserve(header_.messagesCount);
@@ -50,7 +56,7 @@ namespace sk {
 				wrappers.emplace_back();
 				span >> wrappers.back();
 			}
-			SK_ASSERT(span.size()     == 0
+			SK_ASSERT(span.size()  == 0
 				&& wrappers.size() == header_.messagesCount
 				&& "Bad de-serialization of the messages");
 

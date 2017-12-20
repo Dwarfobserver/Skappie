@@ -25,6 +25,9 @@ namespace sk {
 		public:
 			wrapper() : tag_{ tag::invalid } {}
 
+			template <class Message>
+			wrapper(Message const& msg, bytes_span span);
+
 			/// Assign the given message. A temporary buffer is needed, which must be greater
 			/// than the serialized size of the message.
 			template <class Message>
@@ -44,6 +47,11 @@ namespace sk {
 			tag_type tag_;
 			std::vector<std::byte> bytes_;
 		};
+
+		template <class Message>
+		wrapper::wrapper(Message const& msg, bytes_span span) {
+			assign(msg, span);
+		}
 
 		template <class Message>
 		void wrapper::assign(Message const& msg, bytes_span span) {
