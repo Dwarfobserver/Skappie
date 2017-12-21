@@ -57,7 +57,6 @@ TEST_CASE("network socket basics", "[network]") {
 	socket2.bind(addr2.port());
 
 	sk::msg::connect_request request;
-	request.stamp = 12;
 	request.nickname = "xX_0bl1t3r4t0r_Xx";
 
 	socket1.push({ request, span }, addr2);

@@ -31,20 +31,21 @@ namespace sk::net {
 			resolved,
 			timed_out
 		};
+		explicit request(context_info& context);
 		request(request&&) = delete;
 
 		void update();
 		bool handle(msg::wrapper const& message);
 		
-		msg::tag_type message_tag() const { return message_.tag(); }
+		msg::tag_type tag()           const { return message_.tag(); }
+		msg::stamp_type stamp()       const { return stamp_; }
 		address_type const& address() const { return address_; }
-		status get_status() const { return status_; }
+		status get_status()           const { return status_; }
 	private:
-		explicit request(context_info& context);
-
 		context_info& context_;
 		msg::wrapper message_;
 		address_type address_;
+		msg::stamp_type stamp_;
 		std::function<bool(msg::wrapper const&)> callback_;
 		std::function<void()> callbackTimeout_;
 		status status_;
@@ -64,8 +65,9 @@ namespace sk::net {
 		static_assert(msg::tag_of<RequestMsg> == msg::tag_of<ResponseMsg>);
 
 		auto pRequest = std::make_unique<request>(context);
-		pRequest->message_ = { message, { context.tmpBuffer, sizeof(context.tmpBuffer) } };
+		pRequest->message_ = msg::wrapper{ message, bytes_span{ context.tmpBuffer, sizeof(context.tmpBuffer) } };
 		pRequest->address_ = address;
+		pRequest->stamp_ = message.stamp;
 		pRequest->callback_ = [pRequest = pRequest.get(), callback = std::move(callback)]
 			(msg::wrapper const& wrapper) -> bool {
 

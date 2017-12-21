@@ -24,6 +24,7 @@ namespace sk::msg {
 		/// Events such as players inputs, send in an unreliable way.
 		event,
 		/// Requests made by clients, send in a reliable way.
+		/// It must serialize the request stamp first.
 		request
 	};
 

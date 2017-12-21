@@ -37,7 +37,7 @@ TEST_CASE("wrap a message", "[serialization]") {
 	std::byte buffer[30];
 
 	sk::msg::connect_request msg;
-	msg.stamp = 42;
+	msg.type = sk::msg::connect_request::new_account;
 	msg.nickname = "xX_0bl1t3r4t0r_Xx";
 
 	sk::msg::wrapper wrapper;
@@ -52,13 +52,13 @@ TEST_CASE("wrap a message", "[serialization]") {
 	sk::msg::connect_request msgCopy;
 	wrapper.extract(msgCopy);
 
-	REQUIRE(msg.stamp    == msgCopy.stamp);
+	REQUIRE(msg.type     == msgCopy.type);
 	REQUIRE(msg.nickname == msgCopy.nickname);
 }
 
 TEST_CASE("packetage messages", "[serialization]") {
 
-	std::byte buffer[60];
+	std::byte buffer[70];
 	sk::bytes_span span{ buffer, sizeof(buffer) };
 
 	// Messages (2 must fit in the buffer, but not 3 - including the packet header)

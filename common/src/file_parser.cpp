@@ -136,7 +136,7 @@ namespace sk {
 		if (content_.empty()) return;
 
 		file << content_.front().raw_string();
-		for (int i = 1; i < content_.size(); ++i) {
+		for (auto i = 1u; i < content_.size(); ++i) {
 			file << '\n' << content_[i].raw_string();
 		}
 	}

@@ -6,7 +6,9 @@
 
 namespace sk {
 
-	players_database::players_database(std::string const& path) :
+	char const* players_database::path = "resources/players.db";
+
+	players_database::players_database() :
 		parser_{ file_parser::try_open(path) }
 	{
 		if (!parser_.is_open()) {

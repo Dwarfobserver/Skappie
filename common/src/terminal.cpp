@@ -53,7 +53,7 @@ terminal::terminal() :
 {}
 
 terminal::~terminal() noexcept {
-	SK_ASSERT(mustQuit_);
+	if (!mustQuit_) std::cout << "Terminal is being destroyed, press enter\n";
 }
 
 void terminal::update() {
@@ -61,6 +61,7 @@ void terminal::update() {
 
 	const auto pOldState = pState_;
 	run_tasks();
+
 	if (!pOldState) {
 		if (!pState_) return;
 		// First set_state
@@ -80,7 +81,7 @@ void terminal::quit() {
 	});
 }
 
-void terminal::add_state(terminal::state &&commandsState) {
+void terminal::add_state(state &&commandsState) {
 	taskQueue_.emplace([this, state = std::move(commandsState)]() mutable {
 		auto name = state.name();
 		states_.emplace(std::make_pair(std::move(name), std::move(state)));

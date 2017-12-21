@@ -9,12 +9,14 @@ namespace sk {
 	
 	class players_database {
 	public:
+		static char const* path;
+
 		struct info {
 			std::string nickname;
 			std::string password;
 		};
 
-		explicit players_database(std::string const& path);
+		players_database();
 
 		void save();
 

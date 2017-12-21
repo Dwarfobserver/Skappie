@@ -14,6 +14,7 @@ namespace sk::net {
 		info.ping = 100ms;
 		info.requestRetry = 50ms;
 		info.timeout = 1'000ms;
+		info.serverAddress = { localhost_ip, 52'049 };
 		return info;
 	}
 

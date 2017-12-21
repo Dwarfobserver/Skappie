@@ -5,10 +5,10 @@
 namespace sk {
 	
 	bytes_span& operator<<(bytes_span& span, msg::connect_request const& request) {
-		return span << request.stamp << request.nickname;
+		return span << request.stamp << request.type << request.nickname << request.password;
 	}
 	bytes_span& operator>>(bytes_span& span, msg::connect_request& request) {
-		return span >> request.stamp >> request.nickname;
+		return span >> request.stamp >> request.type >> request.nickname >> request.password;
 	}
 
 	bytes_span& operator<<(bytes_span& span, msg::connect_response const& response) {

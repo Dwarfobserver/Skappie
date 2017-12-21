@@ -14,6 +14,7 @@ namespace sk::net {
 		std::chrono::milliseconds ping;
 		std::chrono::milliseconds requestRetry;
 		std::chrono::milliseconds timeout;
+		address_type serverAddress;
 		udp_socket* pSocket;
 		int packetSize;
 

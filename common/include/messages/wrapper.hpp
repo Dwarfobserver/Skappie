@@ -1,10 +1,10 @@
 
 #pragma once
 
-#include "tags.hpp"
-#include "bytes_span.hpp"
 #include <vector>
 #include <cassert>
+#include "tags.hpp"
+#include "bytes_span.hpp"
 #include "utils.hpp"
 
 
@@ -39,6 +39,9 @@ namespace sk {
 
 			/// Returns the tag of the stored message.
 			tag_type tag() const { return tag_; }
+
+			/// Returns the stamp of the stored message. It must be a request message.
+			stamp_type stamp() const;
 
 			/// Returns true if no message is stored by the wrapper.
 			bool empty() const { return tag_ == tag::invalid; }

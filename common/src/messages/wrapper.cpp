@@ -23,4 +23,10 @@ namespace sk {
 		return sizeof(wrapper.tag_) + serialized_size(wrapper.bytes_);
 	}
 
+	msg::stamp_type msg::wrapper::stamp() const {
+		SK_ASSERT(tag::family_of(tag_) == family::request
+			&& "Only request message family has a stamp (serialized first)");
+		return *reinterpret_cast<stamp_type const*>(bytes_.data());
+	}
+
 }
