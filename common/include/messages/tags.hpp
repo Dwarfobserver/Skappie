@@ -37,8 +37,9 @@ namespace sk::msg {
 			_state_sync_begin = _tags_begin,
 
 				// state_sync family
-				sync_homeroom = _state_sync_begin,
-				sync_instance,
+				sync_acq = _state_sync_begin,
+				sync_events,
+				sync_world,
 
 			_state_sync_end,
 			_event_begin = _state_sync_end,
@@ -52,7 +53,7 @@ namespace sk::msg {
 				// request family
 				heartbeat = _request_begin,
 				login,
-				change_world,
+				load_world,
 
 			_request_end,
 			_tags_end = _request_end

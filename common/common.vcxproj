@@ -135,6 +135,7 @@
     <ClCompile Include="src\network\request.cpp" />
     <ClCompile Include="src\network\udp_socket.cpp" />
     <ClCompile Include="src\network\packet.cpp" />
+    <ClCompile Include="src\file_parser.cpp" />
     <ClCompile Include="src\terminal.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -147,6 +148,7 @@
     <ClInclude Include="include\network\packet.hpp" />
     <ClInclude Include="include\network\request.hpp" />
     <ClInclude Include="include\network\udp_socket.hpp" />
+    <ClInclude Include="include\file_parser.hpp" />
     <ClInclude Include="include\terminal.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

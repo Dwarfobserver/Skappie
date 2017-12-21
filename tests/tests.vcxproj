@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\network.cpp" />
+    <ClCompile Include="src\parsing.cpp" />
     <ClCompile Include="src\serialization.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

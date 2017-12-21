@@ -36,14 +36,18 @@ namespace sk::msg {
 
 			#define WRITE_PAIR(name) { name, #name }
 			static std::unordered_map<tag_type, std::string> names{
-				WRITE_PAIR(sync_homeroom),
-				WRITE_PAIR(sync_instance),
+				WRITE_PAIR(sync_acq),
+				WRITE_PAIR(sync_world),
+				WRITE_PAIR(sync_events),
 				WRITE_PAIR(disconnect),
 				WRITE_PAIR(heartbeat),
 				WRITE_PAIR(login),
-				WRITE_PAIR(change_world),
+				WRITE_PAIR(load_world),
 			};
 			#undef WRITE_PAIR
+
+			SK_ASSERT(names.size() == _tags_end - _tags_begin
+				&& "Tag names were forgotten");
 
 			if (!is_valid(tag))
 				return "invalid";
