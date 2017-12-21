@@ -128,7 +128,7 @@
   <ItemGroup>
     <ClCompile Include="src\bytes_span.cpp" />
     <ClCompile Include="src\core.cpp" />
-    <ClCompile Include="src\messages\login.cpp" />
+    <ClCompile Include="src\messages\connect.cpp" />
     <ClCompile Include="src\messages\tags.cpp" />
     <ClCompile Include="src\messages\wrapper.cpp" />
     <ClCompile Include="src\network\context_info.cpp" />
@@ -140,8 +140,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\bytes_span.hpp" />
-    <ClInclude Include="include\core.hpp" />
-    <ClInclude Include="include\messages\login.hpp" />
+    <ClInclude Include="include\utils.hpp" />
+    <ClInclude Include="include\messages\connect.hpp" />
     <ClInclude Include="include\messages\tags.hpp" />
     <ClInclude Include="include\messages\wrapper.hpp" />
     <ClInclude Include="include\network\context_info.hpp" />

@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
-#include "core.hpp"
+#include "utils.hpp"
 
 namespace sk {
 
@@ -19,6 +19,8 @@ namespace sk {
 			values
 		};
 		file_line();
+
+		bool operator==(file_line const& rhs) const;
 
 		int type() const { return type_; }
 		std::string const& raw_string() const { return content_; }
@@ -40,19 +42,27 @@ namespace sk {
 
 	class file_parser {
 	public:
-		static std::optional<file_parser> try_open(std::string const& path);
-		static std::optional<file_parser> try_create(std::string const& path);
+		static file_parser try_open(std::string const& path);
+		static file_parser try_create(std::string const& path);
+		static bool try_remove(std::string const& path);
 
+		file_parser();
 		~file_parser();
+
 		void save();
+		void save(std::string const& path);
 
 		std::vector<file_line>& content() { return content_; }
+
+		bool is_open() const { return isOpen_; }
 		std::string const& path() const { return path_; }
+
 		bool save_at_destruction() const { return saveAtDestruction_; }
 		void save_at_destruction(bool val) { saveAtDestruction_ = val; }
 	private:
 		file_parser(std::ifstream&& file, std::string const& path);
 
+		bool isOpen_;
 		std::vector<file_line> content_;
 		std::string path_;
 		bool saveAtDestruction_;

@@ -1,7 +1,7 @@
 
 #include "messages/tags.hpp"
 #include <unordered_map>
-#include "core.hpp"
+#include "utils.hpp"
 
 
 namespace sk::msg {
@@ -41,7 +41,7 @@ namespace sk::msg {
 				WRITE_PAIR(sync_events),
 				WRITE_PAIR(disconnect),
 				WRITE_PAIR(heartbeat),
-				WRITE_PAIR(login),
+				WRITE_PAIR(connect),
 				WRITE_PAIR(load_world),
 			};
 			#undef WRITE_PAIR

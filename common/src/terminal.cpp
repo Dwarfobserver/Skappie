@@ -2,7 +2,7 @@
 #include "terminal.hpp"
 #include <iostream>
 #include <random>
-#include "core.hpp"
+#include "utils.hpp"
 
 
 using namespace sk;

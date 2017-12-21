@@ -5,7 +5,7 @@
 #include "bytes_span.hpp"
 #include <vector>
 #include <cassert>
-#include "core.hpp"
+#include "utils.hpp"
 
 
 namespace sk {

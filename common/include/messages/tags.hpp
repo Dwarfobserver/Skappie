@@ -52,7 +52,7 @@ namespace sk::msg {
 
 				// request family
 				heartbeat = _request_begin,
-				login,
+				connect,
 				load_world,
 
 			_request_end,

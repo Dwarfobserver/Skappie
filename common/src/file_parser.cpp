@@ -2,8 +2,8 @@
 #include "file_parser.hpp"
 #include <fstream>
 #include <sstream>
-#include "core.hpp"
-#include <iostream>
+#include <cstdio>
+#include "utils.hpp"
 
 
 namespace sk {
@@ -17,6 +17,10 @@ namespace sk {
 	file_line::file_line() :
 		type_(empty)
 	{}
+
+	bool file_line::operator==(file_line const& rhs) const {
+		return content_ == rhs.content_;
+	}
 
 	void file_line::write_comment(std::string const& msg) {
 		assert_no_escape(msg);
@@ -56,10 +60,9 @@ namespace sk {
 		vals.clear();
 		vals.emplace_back();
 		while (std::getline(ss, vals.back(), ';')) {
-			std::cout << "STR = <" << vals.back() << ">\n";
-			if (vals.back().empty()) continue;
 			vals.emplace_back();
 		}
+		vals.pop_back();
 	}
 
 	file_line::file_line(std::string const& str) :
@@ -78,15 +81,15 @@ namespace sk {
 
 	// File parser
 
-	std::optional<file_parser> file_parser::try_open(std::string const& path) {
+	file_parser file_parser::try_open(std::string const& path) {
 		std::ifstream file{ path };
 		if (!file.is_open())
 			return {};
 
-		return {{ std::move(file), path }};
+		return { std::move(file), path};
 	}
 
-	std::optional<file_parser> file_parser::try_create(std::string const& path) {
+	file_parser file_parser::try_create(std::string const& path) {
 		std::fstream file{ path };
 		if (file.is_open())
 			return {};
@@ -94,14 +97,30 @@ namespace sk {
 		file.flush();
 		file.close();
 
-		return {{ std::ifstream{ path }, path }};
+		return { std::ifstream{ path }, path };
 	}
+
+	bool file_parser::try_remove(std::string const& path) {
+		return std::remove(path.c_str()) == 0;
+	}
+
+	file_parser::file_parser() :
+		isOpen_{ false },
+		saveAtDestruction_{ false }
+	{}
 
 	file_parser::~file_parser() {
 		if (saveAtDestruction_) save();
 	}
 
+	void file_parser::save() {
+		SK_ASSERT(isOpen_
+			&& "Nothing to save");
+		save(path_);
+	}
+
 	file_parser::file_parser(std::ifstream&& file, std::string const& path) :
+		isOpen_{ true },
 		path_{ path },
 		saveAtDestruction_{ false }
 	{
@@ -111,11 +130,14 @@ namespace sk {
 		}
 	}
 
-	void file_parser::save() {
-		std::ofstream file{ path_ };
+	void file_parser::save(std::string const& path) {
+		std::ofstream file{ path };
 		file.clear();
-		for (auto const& line : content_) {
-			file << line.raw_string();
+		if (content_.empty()) return;
+
+		file << content_.front().raw_string();
+		for (int i = 1; i < content_.size(); ++i) {
+			file << '\n' << content_[i].raw_string();
 		}
 	}
 }

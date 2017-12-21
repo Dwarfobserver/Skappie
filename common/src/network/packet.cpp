@@ -1,7 +1,7 @@
 
 #include "network/packet.hpp"
 #include "messages/wrapper.hpp"
-#include "core.hpp"
+#include "utils.hpp"
 
 
 namespace sk {

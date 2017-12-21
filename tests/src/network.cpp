@@ -2,7 +2,7 @@
 #include <catch.hpp>
 #include "network/udp_socket.hpp"
 #include "network/packet.hpp"
-#include "messages/login.hpp"
+#include "messages/connect.hpp"
 #include "messages/wrapper.hpp"
 
 
@@ -56,7 +56,7 @@ TEST_CASE("network socket basics", "[network]") {
 	socket1.bind(addr1.port());
 	socket2.bind(addr2.port());
 
-	sk::msg::login_request request;
+	sk::msg::connect_request request;
 	request.stamp = 12;
 	request.nickname = "xX_0bl1t3r4t0r_Xx";
 
@@ -73,7 +73,7 @@ TEST_CASE("network socket basics", "[network]") {
 
 	REQUIRE(wrappers.size() == 1);
 
-	sk::msg::login_request requestCopy;
+	sk::msg::connect_request requestCopy;
 	wrappers[0].extract(requestCopy);
 
 	REQUIRE(request.nickname == requestCopy.nickname);

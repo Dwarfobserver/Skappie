@@ -2,7 +2,7 @@
 #include <catch.hpp>
 #include "bytes_span.hpp"
 #include "messages/wrapper.hpp"
-#include "messages/login.hpp"
+#include "messages/connect.hpp"
 #include "network/packet.hpp"
 
 using namespace std::literals;
@@ -36,7 +36,7 @@ TEST_CASE("wrap a message", "[serialization]") {
 
 	std::byte buffer[30];
 
-	sk::msg::login_request msg;
+	sk::msg::connect_request msg;
 	msg.stamp = 42;
 	msg.nickname = "xX_0bl1t3r4t0r_Xx";
 
@@ -49,7 +49,7 @@ TEST_CASE("wrap a message", "[serialization]") {
 	REQUIRE(!wrapper.empty());
 	REQUIRE(wrapper.tag() == sk::msg::tag_of<decltype(msg)>);
 
-	sk::msg::login_request msgCopy;
+	sk::msg::connect_request msgCopy;
 	wrapper.extract(msgCopy);
 
 	REQUIRE(msg.stamp    == msgCopy.stamp);
@@ -63,11 +63,11 @@ TEST_CASE("packetage messages", "[serialization]") {
 
 	// Messages (2 must fit in the buffer, but not 3 - including the packet header)
 
-	sk::msg::login_request msg1;
+	sk::msg::connect_request msg1;
 	msg1.stamp = 42;
 	msg1.nickname = "xX_0bl1t3r4t0r_Xx";
 
-	sk::msg::login_response msg2;
+	sk::msg::connect_response msg2;
 	msg2.stamp = 42;
 	msg2.accepted = false;
 	msg2.reason = "Ugly pseudo";
@@ -106,10 +106,10 @@ TEST_CASE("packetage messages", "[serialization]") {
 
 	// Messages extraction
 
-	sk::msg::login_request msg1Copy;
+	sk::msg::connect_request msg1Copy;
 	wrappers[0].extract(msg1Copy);
 
-	sk::msg::login_response msg2Copy;
+	sk::msg::connect_response msg2Copy;
 	wrappers[1].extract(msg2Copy);
 
 	REQUIRE(msg1Copy.stamp == msg1.stamp);
