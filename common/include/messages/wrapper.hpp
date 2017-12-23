@@ -60,16 +60,18 @@ namespace sk {
 		void wrapper::assign(Message const& msg, bytes_span span) {
 			const auto begin = span.begin;
 			span << msg;
-			SK_ASSERT(span.is_valid()
-				&& "Tried to wrap a message with a too small temporary buffer");
+			SK_ASSERT(span.is_valid(),
+				"Tried to wrap a message with a too small temporary buffer");
 			tag_ = tag_of<Message>;
 			bytes_.assign(begin, span.begin);
 		}
 
 		template <class Message>
 		void wrapper::extract(Message& msg) const {
-			SK_ASSERT(tag_ == tag_of<Message>
-				&& "Tried to extracta wrong message type");
+			SK_ASSERT(tag_ == tag_of<Message>,
+				"Tried to extract msg of type " + tag::to_string(tag_of<Message>) +
+				" but contains msg of type " + tag::to_string(tag_));
+
 			bytes_span span{ bytes_.data() };
 			span >> msg;
 		}

@@ -27,12 +27,12 @@ namespace sk {
 				line.type() == file_line::comment)
 				continue;
 
-			SK_ASSERT(line.type() == file_line::values
-				&& "Bad file formatting");
+			SK_ASSERT(line.type() == file_line::values,
+				"Bad file formatting");
 
 			line.read_values(vals);
-			SK_ASSERT(vals.size() == 2
-				&& "Bad player info record");
+			SK_ASSERT(vals.size() == 2,
+				"Bad player info record");
 
 			info newInfo;
 			newInfo.nickname = vals[0];
@@ -61,8 +61,8 @@ namespace sk {
 				return false;
 			return vals[0] == nickname;
 		});
-		SK_ASSERT(itFile != lines.end()
-			&& "Data and file have different values");
+		SK_ASSERT(itFile != lines.end(),
+			"Data and file have different values");
 
 		lines.erase(itFile);
 		data_.erase(itData);

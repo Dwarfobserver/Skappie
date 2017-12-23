@@ -23,6 +23,8 @@ namespace sk {
 		bool try_remove(std::string const& nickname);
 		bool try_register(info const& account);
 		info const* try_get_infos(std::string const& nickname) const;
+
+		std::map<std::string, info> const& data() const { return data_; }
 	private:
 		file_parser parser_;
 		std::map<std::string, info> data_;

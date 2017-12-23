@@ -6,11 +6,12 @@ using namespace std::chrono;
 namespace sk::net {
 
 	void request::update() {
-		SK_ASSERT(status_ == status::running
-			&& "A finished request must not be updated");
+		SK_ASSERT(status_ == status::running,
+			"A finished request must not be updated");
 
 		const auto tNow = high_resolution_clock::now();
 		if (tNow - firstSend_ > context_.timeout) {
+			callbackTimeout_();
 			status_ = status::timed_out;
 			return;
 		}
@@ -21,8 +22,8 @@ namespace sk::net {
 	}
 
 	bool request::handle(msg::wrapper const& message) {
-		SK_ASSERT(status_ == status::running
-			&& "A finished request must not handle messages");
+		SK_ASSERT(status_ == status::running,
+			"A finished request must not handle messages");
 
 		if(!gotResponse_) {
 			const auto tNow = high_resolution_clock::now();

@@ -27,6 +27,7 @@ namespace sk {
 			void push(msg::wrapper const& wrapper, address_type const& addr);
 			void send_packets();
 			bool try_get_packet(packet& packet, address_type& addr);
+			uint16_t port() const;
 		private:
 			std::byte buffer_[500];
 			asio::io_service ioService_;

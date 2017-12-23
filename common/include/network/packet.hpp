@@ -53,4 +53,6 @@ namespace sk {
 		};
 	}
 
+	std::string to_string(net::packet const& packet);
+
 }

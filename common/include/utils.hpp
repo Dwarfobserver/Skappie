@@ -13,15 +13,19 @@ namespace sk {
 	};
 
 	namespace detail {
-		void _assert(char const* expr, char const* file, int line);
+		void _assert(char const* expr, char const* file, int line, std::string const& msg);
 	}
 
 #ifdef NDEBUG
 	#define SK_ASSERT(expression) ((void)0)
 #else
-	#define SK_ASSERT(expression) (void) (                                 \
-				(!!(expression)) ||                                         \
-				(detail::_assert(#expression, __FILE__, (int)(__LINE__)), 0) \
+	#define SK_ASSERT(expression, msg) (void)( \
+				(!!(expression)) ||            \
+				(detail::_assert(              \
+					#expression,               \
+					__FILE__,                  \
+					(int)(__LINE__),           \
+					msg), 0)                   \
 			)
 #endif
 

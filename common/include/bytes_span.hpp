@@ -42,6 +42,8 @@ namespace sk {
 		bytes_span& peek(T& data);
 	};
 
+	std::string to_string(bytes_span span);
+
 	template <class T>
 	bytes_span& bytes_span::peek(T& data) {
 		const auto b = begin;

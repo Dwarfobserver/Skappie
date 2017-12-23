@@ -7,27 +7,33 @@
 namespace sk {
 
 	bytes_span& sk::operator<<(bytes_span& span, net::packet const& packet) {
-		SK_ASSERT(span.size() >= serialized_size(packet)
-			&& "Span buffer too small");
-		const auto b = span.begin;
+		SK_ASSERT(span.size() >= serialized_size(packet),
+			"Span buffer too small for packet serialization : " +
+			std::to_string(span.size()) + " < " +
+			std::to_string(serialized_size(packet)) +
+			"\nPacket view : '" + to_string(packet) + "'");
 
+		const auto b = span.begin;
 		packet.header_.out(span);
 		span << packet.body_;
 
-		SK_ASSERT(span.begin - b == serialized_size(packet)
-			&& "Bad serialization of the packet");
+		SK_ASSERT(span.begin - b == serialized_size(packet),
+			"Bad serialization of the packet : " +
+			std::to_string(span.begin - b) + " != " +
+			std::to_string(serialized_size(packet)));
+
 		return span;
 	}
 	bytes_span& sk::operator>>(bytes_span& span, net::packet& packet) {
-		SK_ASSERT(span.size() >= serialized_size(packet)
-			&& "Span buffer too small");
 		const auto b = span.begin;
-
 		packet.header_.in(span);
 		span >> packet.body_;
 
-		SK_ASSERT(span.begin - b == serialized_size(packet)
-			&& "Bad de-serialization of the packet");
+		SK_ASSERT(span.begin - b == serialized_size(packet),
+			"Bad de-serialization of the packet : " +
+			std::to_string(span.begin - b) + " != " +
+			std::to_string(serialized_size(packet)));
+
 		return span;
 	}
 
@@ -56,9 +62,8 @@ namespace sk {
 				wrappers.emplace_back();
 				span >> wrappers.back();
 			}
-			SK_ASSERT(span.size()  == 0
-				&& wrappers.size() == header_.messagesCount
-				&& "Bad de-serialization of the messages");
+			SK_ASSERT(span.size()  == 0 && wrappers.size() == header_.messagesCount,
+				"Bad de-serialization of the messages");
 
 			return wrappers;
 		}
@@ -67,8 +72,8 @@ namespace sk {
 			capacity -= header_serialized_size;
 			capacity -= serialized_size(std::vector<std::byte>{});
 
-			SK_ASSERT(capacity >= 0
-				&& "The packet must be big enough for the header");
+			SK_ASSERT(capacity >= 0,
+				"The packet must be big enough for the header");
 
 			const auto pos = span_.size();
 			body_.reserve(capacity);
@@ -93,17 +98,24 @@ namespace sk {
 
 			span >> messagesCount;
 
-			SK_ASSERT(span.begin - b == header_serialized_size
-				&& "Wrong header::serialized_size value");
+			SK_ASSERT(span.begin - b == header_serialized_size,
+				"Wrong header::serialized_size value, should be " + std::to_string(span.begin - b));
 		}
 		void packet::header::out(bytes_span& span) const {
 			const auto b = span.begin;
 
 			span << messagesCount;
 
-			SK_ASSERT(span.begin - b == header_serialized_size
-				&& "Wrong header::serialized_size value");
+			SK_ASSERT(span.begin - b == header_serialized_size,
+				"Wrong header::serialized_size value, should be " + std::to_string(span.begin - b));
 		}
+	}
+
+	std::string to_string(net::packet const& packet) {
+		std::byte buffer[500];
+		bytes_span span{ buffer, sizeof(buffer) };
+		span << packet;
+		return to_string(bytes_span{ buffer, span.begin });
 	}
 
 }

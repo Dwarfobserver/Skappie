@@ -4,6 +4,12 @@
 
 namespace sk {
 
+	std::string to_string(bytes_span span) {
+		auto str = std::string(span.begin, span.end);
+		for (char& c : str) if (c == 0) c = '_';
+		return str;
+	}
+
 	bytes_span& operator<<(bytes_span& span, std::string const& data) {
 		span << static_cast<uint32_t>(data.size());
 		std::memcpy(span.begin, data.data(), data.size());

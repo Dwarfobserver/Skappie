@@ -9,7 +9,8 @@ namespace sk::msg {
 	namespace tag {
 
 		family tag::family_of(tag_type tag) {
-			SK_ASSERT(is_valid(tag) && "Invalid tag value");
+			SK_ASSERT(is_valid(tag),
+				"Invalid tag value");
 
 			if (tag < _state_sync_end)
 				return family::state_sync;
@@ -46,8 +47,8 @@ namespace sk::msg {
 			};
 			#undef WRITE_PAIR
 
-			SK_ASSERT(names.size() == _tags_end - _tags_begin
-				&& "Tag names were forgotten");
+			SK_ASSERT(names.size() == _tags_end - _tags_begin,
+				"Tag names were forgotten");
 
 			if (!is_valid(tag))
 				return "invalid";

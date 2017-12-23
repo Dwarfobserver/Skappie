@@ -30,21 +30,52 @@ int main() {
 		std::cout << "Players online : (" << players.size() << ")\n";
 		for (auto const& pair : players) {
 			const auto pInfo = pair.second;
-			std::cout << "At " << pair.first << " - " << pInfo->nickname << " (password: " << pInfo->password << ")\n";
+			std::cout << "    At " << pair.first << " - " << pInfo->nickname << '\n';
 		}
-		std::cout << '\n';
+	});
+	onlineState.add_command(
+		"accounts",
+		"Show all accounts",
+		[&](std::string const& args) {
+
+		auto const& data = playersDatabase.data();
+		std::cout << "Accounts : (" << data.size() << ")\n";
+		for (auto const& pair : data) {
+			std::cout << "    " << pair.first << " - password = '" << pair.second.password << "'\n";
+		}
+
+		for (auto const& pair : players) {
+			auto& address = pair.first;
+			sk::msg::disconnect msg;
+			socket.push(msg, address);
+		}
+		players.clear();
+	});
+	onlineState.add_command(
+		"disconnect",
+		"Disconnects all players",
+		[&](std::string const& args) {
+
+		for (auto const& pair : players) {
+			auto& address = pair.first;
+			sk::msg::disconnect msg;
+			socket.push(msg, address);
+		}
+		players.clear();
 	});
 	terminal.add_state(std::move(onlineState));
 	terminal.set_state("online");
 
-	socket.bind(netContext.serverAddress.port());
-	terminal.update();
-
-	sk::net::packet packet;
-	sk::net::address_type address;
-	std::vector<sk::msg::wrapper> wrappers;
-
 	try {
+
+		socket.bind(netContext.serverAddress.port());
+		std::cout << "bind at port " << socket.port() << '\n';
+		terminal.update();
+
+		sk::net::packet packet;
+		sk::net::address_type address;
+		std::vector<sk::msg::wrapper> wrappers;
+
 		while (!terminal.is_quitting()) {
 			while (socket.try_get_packet(packet, address)) {
 				for (auto& wrapper : packet.extract_messages()) {

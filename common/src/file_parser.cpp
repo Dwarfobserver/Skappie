@@ -9,9 +9,8 @@
 namespace sk {
 
 	static void assert_no_escape(std::string const& line) {
-		SK_ASSERT(std::find(line.begin(), line.end(), '\n')
-					== line.end()
-			&& "Line string must not have '\\n'");
+		SK_ASSERT(std::find(line.begin(), line.end(), '\n') == line.end(),
+			"Line string must not have '\\n'");
 	}
 
 	file_line::file_line() :
@@ -28,18 +27,18 @@ namespace sk {
 		type_ = comment;
 	}
 	void file_line::read_comment(std::string& msg) const {
-		SK_ASSERT(type_ == comment && "Bad file line read");
+		SK_ASSERT(type_ == comment, "Bad file line read");
 		msg.assign(content_.begin() + 1, content_.end());
 	}
 
 	void file_line::write_section(int val, std::string const& name) {
 		assert_no_escape(name);
-		SK_ASSERT(val >= 1 && val <= 9 && "Bad section value");
+		SK_ASSERT(val >= 1 && val <= 9, "Bad section value");
 		content_ = '#' + std::to_string(val) + name;
 		type_ = section;
 	}
 	void file_line::read_section(int& val, std::string& name) const {
-		SK_ASSERT(type_ == section && "Bad file line read");
+		SK_ASSERT(type_ == section, "Bad file line read");
 		std::istringstream ss{ content_ };
 		char delim;
 		ss >> delim >> val >> name;
@@ -55,7 +54,7 @@ namespace sk {
 		type_ = values;
 	}
 	void file_line::read_values(std::vector<std::string>& vals) const {
-		SK_ASSERT(type_ == values && "Bad file line read");
+		SK_ASSERT(type_ == values, "Bad file line read");
 		std::istringstream ss{ content_ };
 		vals.clear();
 		vals.emplace_back();
@@ -114,8 +113,7 @@ namespace sk {
 	}
 
 	void file_parser::save() {
-		SK_ASSERT(isOpen_
-			&& "Nothing to save");
+		SK_ASSERT(isOpen_, "Nothing to save");
 		save(path_);
 	}
 

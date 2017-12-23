@@ -71,8 +71,8 @@ namespace sk::net {
 		pRequest->callback_ = [pRequest = pRequest.get(), callback = std::move(callback)]
 			(msg::wrapper const& wrapper) -> bool {
 
-			SK_ASSERT(wrapper.tag() == msg::tag_of<RequestMsg>
-				&& "Wrong message type passed to the request handler");
+			SK_ASSERT(wrapper.tag() == msg::tag_of<RequestMsg>,
+				"Wrong message type passed to the request handler : tag = " + msg::tag::to_string(wrapper.tag()));
 			ResponseMsg response;
 			wrapper.extract(response);
 			return callback(response);

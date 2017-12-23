@@ -127,7 +127,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\bytes_span.cpp" />
-    <ClCompile Include="src\core.cpp" />
+    <ClCompile Include="src\utils.cpp" />
     <ClCompile Include="src\messages\connect.cpp" />
     <ClCompile Include="src\messages\disconnect.cpp" />
     <ClCompile Include="src\messages\tags.cpp" />

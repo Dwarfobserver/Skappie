@@ -30,7 +30,7 @@ int main() {
 		}
 		sk::msg::connect_request request;
 		request.nickname = std::string{ args.begin(), it };
-		request.password = std::string{ it, args.end() };
+		request.password = std::string{ it + 1, args.end() };
 		return request;
 	};
 
@@ -143,20 +143,24 @@ int main() {
 	terminal.add_state(std::move(launcherState));
 	terminal.set_state("launcher");
 
-	socket.bind(netContext.serverAddress.port() + (rand() % 1'000) + 1);
-	terminal.update();
-
-	sk::net::packet packet;
-	sk::net::address_type address;
+	const int alea = std::chrono::system_clock::now().time_since_epoch().count() % 1'000;
 	try {
+		socket.bind(netContext.serverAddress.port() + alea + 1);
+		std::cout << "bind at port " << socket.port() << '\n';
+		terminal.update();
+
+		sk::net::packet packet;
+		sk::net::address_type address;
+
 		while (!terminal.is_quitting()) {
 
 			std::vector<int> timedOutIndices;
 			for (auto i = 0u; i < pRequests.size(); ++i) {
 				auto& request = *pRequests[i].get();
 				request.update();
-				if (request.get_status() == sk::net::request::status::timed_out)
+				if (request.get_status() == sk::net::request::status::timed_out) {
 					timedOutIndices.push_back(i);
+				}
 			}
 			for (int i = timedOutIndices.size() - 1; i >= 0; --i) {
 				pRequests.erase(pRequests.begin() + timedOutIndices[i]);
@@ -189,8 +193,10 @@ int main() {
 
 							return pRequest->stamp() == wrapper.stamp();
 						});
-						if (it == pRequests.end())
-							throw std::runtime_error{ "Received response with unknown stamp" };
+						if (it == pRequests.end()) {
+							std::cout << "WARNING : Packet with unknown stamp received\n";
+							break;
+						}
 
 						auto& request = *it->get();
 						if (request.handle(wrapper)) {
