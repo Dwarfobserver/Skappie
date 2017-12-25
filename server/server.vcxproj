@@ -19,10 +19,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\globals.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\messages_reactor.cpp" />
     <ClCompile Include="src\players_database.cpp" />
+    <ClCompile Include="src\player_info.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\globals.hpp" />
+    <ClInclude Include="include\messages_reactor.hpp" />
+    <ClInclude Include="include\player_info.hpp" />
     <ClInclude Include="include\players_database.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

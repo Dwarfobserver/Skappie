@@ -4,11 +4,10 @@
 #include <map>
 #include <asio/ip/udp.hpp>
 #include <asio/io_service.hpp>
+#include "network/packet.hpp"
 #include "messages/wrapper.hpp"
 
 namespace sk {
-
-	namespace msg { class wrapper; }
 
 	namespace net {
 

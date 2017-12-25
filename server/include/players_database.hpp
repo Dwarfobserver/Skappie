@@ -6,28 +6,28 @@
 
 
 namespace sk {
+
+	struct player_account {
+		std::string nickname;
+		std::string password;
+	};
 	
 	class players_database {
 	public:
 		static char const* path;
 
-		struct info {
-			std::string nickname;
-			std::string password;
-		};
-
 		players_database();
 
 		void save();
 
-		bool try_remove(std::string const& nickname);
-		bool try_register(info const& account);
-		info const* try_get_infos(std::string const& nickname) const;
+		void remove_account(std::string const& nickname);
+		void create_account(player_account const& account);
+		player_account const* try_get_account(std::string const& nickname) const;
 
-		std::map<std::string, info> const& data() const { return data_; }
+		std::map<std::string, player_account> const& accounts() const { return data_; }
 	private:
 		file_parser parser_;
-		std::map<std::string, info> data_;
+		std::map<std::string, player_account> data_;
 	};
 
 }

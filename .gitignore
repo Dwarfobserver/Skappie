@@ -1,5 +1,6 @@
 
 .vs/
+local/
 bin/
 build/
 common/lib/

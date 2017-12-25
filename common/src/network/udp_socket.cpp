@@ -3,7 +3,6 @@
 #include "network/packet.hpp"
 #include "utils.hpp"
 #include <iostream>
-#include "network.hpp"
 
 using udp = asio::ip::udp;
 
@@ -48,50 +47,33 @@ namespace sk::net {
 					addr,
 					[size = serialized_size(packet)] (const asio::error_code& error, size_t bytesSend) {
 
-					if (error) std::cout << "sendto() err code : " << error.value() << '\n';
-
-					// Window auto-check of port disponibility (get on localhost)
 					if (error.value() == 10054) {
-						std::cout << "WSAECONNRESET sig\n";
+						std::cout << "WARNING: WSAECONNRESET sig\n";
 						return;
 					}
-					
 					if (error) throw std::runtime_error{ error.message() };
-
-					std::cout << "send_to() : size = " << size << ", send = " << bytesSend << '\n';
 				});
 			}
 		}
-		asio::error_code error;
-		ioService_.run(error);
-		if (error) std::cout << "run() err code : " << error.value() << '\n';
+		ioService_.run();
 		packets_.clear();
 	}
 
 	bool udp_socket::try_get_packet(packet& packet, address_type& addr) {
-		asio::error_code error;
-		socket_.available(error);
-		if (error) std::cout << "available() err code : " << error.value() << '\n';
-		if (socket_.available(error) == 0)
+		if (socket_.available() == 0)
 			return false;
-		
+
+		asio::error_code error;
 		const auto size = socket_.receive_from(asio::buffer(buffer_), addr, {}, error);
 
-		if (error) std::cout << "receive_from() err code : " << error.value() << '\n';
-
-		if (size == 0) {
-			std::cout << "receive_from() empty packet\n";
+		if (error.value() == 10054) {
+			std::cout << "WARNING: WSAECONNRESET sig\n";
 			return false;
 		}
+		if (error) throw std::runtime_error{ error.message() };
 
 		bytes_span span{ buffer_, size };
 		span >> packet;
-
-		std::cout << "receive_from() : size = " << serialized_size(packet)
-			<< ", received = " << size
-			<< ", msg count = " << packet.messages_count()
-			<< "\nPacket view = " << to_string(packet) << '\n';
-
 		return true;
 	}
 

@@ -2,6 +2,7 @@
 #include "players_database.hpp"
 #include <algorithm>
 #include <iostream>
+#include <winerror.h>
 
 
 namespace sk {
@@ -15,9 +16,9 @@ namespace sk {
 			parser_ = file_parser::try_create(path);
 
 			file_line line;
-			line.write_comment("Player database file");
+			line.write_comment("Player accounts database");
 			parser_.content().push_back(line);
-			std::cout << "Create players database\n";
+			std::cout << "Create player accounts database\n";
 		}
 		parser_.save_at_destruction(true);
 
@@ -34,7 +35,7 @@ namespace sk {
 			SK_ASSERT(vals.size() == 2,
 				"Bad player info record");
 
-			info newInfo;
+			player_account newInfo;
 			newInfo.nickname = vals[0];
 			newInfo.password = vals[1];
 			data_.emplace(std::move(vals[0]), std::move(newInfo));
@@ -45,10 +46,10 @@ namespace sk {
 		parser_.save();
 	}
 
-	bool players_database::try_remove(std::string const& nickname) {
+	void players_database::remove_account(std::string const& nickname) {
 		const auto itData = data_.find(nickname);
-		if (itData == data_.end()) 
-			return false;
+		SK_ASSERT(itData != data_.end(),
+			"Tried to remove a non-existing account");
 
 		auto& lines = parser_.content();
 		std::vector<std::string> vals;
@@ -66,22 +67,20 @@ namespace sk {
 
 		lines.erase(itFile);
 		data_.erase(itData);
-		return true;
 	}
 
-	bool players_database::try_register(info const& account) {
+	void players_database::create_account(player_account const& account) {
 		const auto it = data_.find(account.nickname);
-		if (it != data_.end())
-			return false;
+		SK_ASSERT(it == data_.end(),
+			"Tried to create an account with a taken nickname");
 		
 		file_line line;
 		line.write_values({ account.nickname, account.password });
 		parser_.content().push_back(std::move(line));
 		data_.insert(it, std::make_pair(account.nickname, account));
-		return true;
 	}
 
-	players_database::info const* players_database::try_get_infos(std::string const& nickname) const {
+	player_account const* players_database::try_get_account(std::string const& nickname) const {
 		const auto it = data_.find(nickname);
 		if (it == data_.end())
 			return nullptr;
