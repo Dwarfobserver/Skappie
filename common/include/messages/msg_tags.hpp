@@ -39,14 +39,15 @@ namespace sk::msg {
 
 				// state_sync family
 				sync_acq = _state_sync_begin,
-				sync_events,
-				sync_world,
+				sync_players,
 
 			_state_sync_end,
 			_event_begin = _state_sync_end,
 
 				// event family
 				disconnect = _event_begin,
+				missile_fired,
+				player_died,
 
 			_event_end,
 			_request_begin = _event_end,
@@ -57,7 +58,8 @@ namespace sk::msg {
 				load_world,
 
 			_request_end,
-			_tags_end = _request_end
+			_tags_end = _request_end,
+			count = _tags_end
 		};
 
 		/// Returns true if the tag has a valid value.

@@ -1,5 +1,5 @@
 
-#include "messages/tags.hpp"
+#include "messages/msg_tags.hpp"
 #include <unordered_map>
 #include "utils.hpp"
 
@@ -38,8 +38,7 @@ namespace sk::msg {
 			#define WRITE_PAIR(name) { name, #name }
 			static std::unordered_map<tag_type, std::string> names{
 				WRITE_PAIR(sync_acq),
-				WRITE_PAIR(sync_world),
-				WRITE_PAIR(sync_events),
+				WRITE_PAIR(sync_players),
 				WRITE_PAIR(disconnect),
 				WRITE_PAIR(heartbeat),
 				WRITE_PAIR(connect),

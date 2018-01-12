@@ -2,8 +2,7 @@
 #pragma once
 
 #include <vector>
-#include <cassert>
-#include "tags.hpp"
+#include "msg_tags.hpp"
 #include "bytes_span.hpp"
 #include "utils.hpp"
 

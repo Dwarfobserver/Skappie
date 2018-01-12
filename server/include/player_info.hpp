@@ -2,18 +2,13 @@
 #pragma once
 
 #include "network/udp_socket.hpp"
-#include "network/packet.hpp"
+#include "player_status.hpp"
 #include <map>
 
 
 namespace sk {
 
 	struct player_account;
-
-	enum class player_status {
-		unknown,
-		connected
-	};
 
 	class player_info {
 	public:
@@ -23,7 +18,7 @@ namespace sk {
 			pAccount{ nullptr }
 		{}
 
-		player_status status;
+		player_status_type status;
 		net::address_type address;
 		player_account const* pAccount;
 

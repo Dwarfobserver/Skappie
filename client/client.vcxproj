@@ -19,7 +19,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\application_context.cpp" />
+    <ClCompile Include="src\globals.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\make_reactor.cpp" />
+    <ClCompile Include="src\make_terminal.cpp" />
+    <ClCompile Include="src\messages_reactor.cpp" />
+    <ClCompile Include="src\network\request.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\application_context.hpp" />
+    <ClInclude Include="include\globals.hpp" />
+    <ClInclude Include="include\make_reactor.hpp" />
+    <ClInclude Include="include\make_terminal.hpp" />
+    <ClInclude Include="include\messages_reactor.hpp" />
+    <ClInclude Include="include\network\request.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
