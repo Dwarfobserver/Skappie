@@ -2,6 +2,7 @@
 #pragma once
 
 #include "msg_tags.hpp"
+#include "point.hpp"
 #include <vector>
 
 
@@ -12,8 +13,8 @@ namespace sk {
 		struct player_data {
 			uint16_t id;
 			uint8_t life;
-			float pos[2];
-			float speed[2];
+			point pos;
+			point speed;
 		};
 
 		struct sync_players {

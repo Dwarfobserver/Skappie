@@ -2,6 +2,7 @@
 #pragma once
 
 #include "msg_tags.hpp"
+#include "point.hpp"
 
 
 namespace sk {
@@ -11,8 +12,8 @@ namespace sk {
 		struct missile_fired {
 			uint8_t timestamp;
 			uint16_t playerId;
-			float pos[2];
-			float speed[2];
+			point pos;
+			point speed;
 		};
 
 	}

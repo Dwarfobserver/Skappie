@@ -157,7 +157,7 @@ namespace sk {
 
 	bytes_span& operator<<(bytes_span& span, std::vector<std::byte> const& data);
 	bytes_span& operator>>(bytes_span& span, std::vector<std::byte>& data);
-
+	/*
 	namespace detail {
 
 		// Array overload : specialisation (unrolling loop for array size <= 4)
@@ -224,5 +224,5 @@ namespace sk {
 		detail::array_io<T, N>::template out(span, array);
 		return span;
 	}
-
+	*/
 }

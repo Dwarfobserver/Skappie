@@ -34,6 +34,8 @@
     <ClInclude Include="include\make_terminal.hpp" />
     <ClInclude Include="include\messages_reactor.hpp" />
     <ClInclude Include="include\network\request.hpp" />
+    <ClInclude Include="include\window.hpp" />
+    <ClInclude Include="include\world\player.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
