@@ -9,6 +9,7 @@ using udp = asio::ip::udp;
 namespace sk::net {
 
 	asio::ip::address localhost_ip = asio::ip::address::from_string("127.0.0.1");
+	address_type server_address = address_type{ localhost_ip, 52'049 };
 
 	udp_socket::udp_socket() :
 		ioService_{},

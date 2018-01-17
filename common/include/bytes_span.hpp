@@ -151,14 +151,78 @@ namespace sk {
 	}
 
 	// Overloads
-
+	
 	bytes_span& operator<<(bytes_span& span, std::string const& data);
 	bytes_span& operator>>(bytes_span& span, std::string& data);
 
 	bytes_span& operator<<(bytes_span& span, std::vector<std::byte> const& data);
 	bytes_span& operator>>(bytes_span& span, std::vector<std::byte>& data);
 	/*
-	bytes_span& operator<<(bytes_span& span, bytes_span const& data);
-	bytes_span& operator>>(bytes_span& span, bytes_span& data);
+	namespace detail {
+
+		// Array overload : specialisation (unrolling loop for array size <= 4)
+
+		template <class T, size_t N, class SFINAE = void>
+		struct array_io {
+			static void in(bytes_span& span, const T(&array)[N]) {
+				for (size_t i = 0; i < N; ++i) {
+					span << array[i];
+				}
+			}
+			static void out(bytes_span& span, const T(&array)[N]) {
+				for (size_t i = 0; i < N; ++i) {
+					span >> array[i];
+				}
+			}
+		};
+
+		template <class T, class I, size_t N>
+		struct array_io_step {
+			using next_int_t = std::integral_constant<size_t, I::value + 1>;
+
+			static void in(bytes_span& span, const T(&array)[N]) {
+				span << array[I::value];
+				array_io_step<T, next_int_t, N>::template in(span, array);
+			}
+			static void out(bytes_span& span, const T(&array)[N]) {
+				span >> array[I::value];
+				array_io_step<T, next_int_t, N>::template out(span, array);
+			}
+		};
+		template <class T, class I, size_t N>
+		struct array_io_step<T, std::integral_constant<size_t, N - 1>, N> {
+			static void in(bytes_span& span, const T(&array)[N]) {
+				span << array[I::value];
+			}
+			static void out(bytes_span& span, const T(&array)[N]) {
+				span >> array[I::value];
+			}
+		};
+
+		template <class T, size_t N, class SFINAE = void>
+		struct array_io<T, N, std::enable_if_t<
+			N <= 4
+		>> {
+			using first_int_t = std::integral_constant<size_t, 0>;
+
+			static void in(bytes_span& span, const T(&array)[N]) {
+				array_io_step<T, first_int_t, N>::template in(span, array);
+			}
+			static void out(bytes_span& span, const T(&array)[N]) {
+				array_io_step<T, first_int_t, N>::template out(span, array);
+			}
+		};
+	}
+
+	template <class T, size_t N>
+	bytes_span& operator<<(bytes_span& span, const T(&array)[N]) {
+		detail::array_io<T, N>::template in(span, array);
+		return span;
+	}
+	template <class T, size_t N>
+	bytes_span& operator>>(bytes_span& span, T(&array)[N]) {
+		detail::array_io<T, N>::template out(span, array);
+		return span;
+	}
 	*/
 }

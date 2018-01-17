@@ -21,7 +21,7 @@ namespace sk {
 		void handle(msg::wrapper const& wrapper, player_info& player);
 	private:
 		std::byte buffer_[500];
-		std::function<void(msg::wrapper const&, player_info&)> callbacks_[msg::tag::_tags_end];
+		std::function<void(msg::wrapper const&, player_info&)> callbacks_[msg::tag::count];
 	};
 
 	template <class Message>

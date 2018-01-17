@@ -127,33 +127,47 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\bytes_span.cpp" />
+    <ClCompile Include="src\components\cmp_tags.cpp" />
+    <ClCompile Include="src\messages\missile_fired.cpp" />
+    <ClCompile Include="src\messages\sync_players.cpp" />
+    <ClCompile Include="src\player_status.cpp" />
+    <ClCompile Include="src\point.cpp" />
     <ClCompile Include="src\utils.cpp" />
     <ClCompile Include="src\messages\connect.cpp" />
     <ClCompile Include="src\messages\disconnect.cpp" />
-    <ClCompile Include="src\messages\tags.cpp" />
+    <ClCompile Include="src\messages\msg_tags.cpp" />
     <ClCompile Include="src\messages\wrapper.cpp" />
-    <ClCompile Include="src\network\context_info.cpp" />
-    <ClCompile Include="src\network\request.cpp" />
     <ClCompile Include="src\network\udp_socket.cpp" />
     <ClCompile Include="src\network\packet.cpp" />
     <ClCompile Include="src\file_parser.cpp" />
     <ClCompile Include="src\terminal.cpp" />
+    <ClCompile Include="src\world\algorithms.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\bytes_span.hpp" />
+    <ClInclude Include="include\components\cmp_tags.hpp" />
     <ClInclude Include="include\messages.hpp" />
     <ClInclude Include="include\messages\disconnect.hpp" />
+    <ClInclude Include="include\messages\missile_fired.hpp" />
+    <ClInclude Include="include\messages\sync_players.hpp" />
     <ClInclude Include="include\network.hpp" />
+    <ClInclude Include="include\player_status.hpp" />
+    <ClInclude Include="include\point.hpp" />
+    <ClInclude Include="include\pointer_iterators.hpp" />
+    <ClInclude Include="include\slot_map.hpp" />
     <ClInclude Include="include\utils.hpp" />
     <ClInclude Include="include\messages\connect.hpp" />
-    <ClInclude Include="include\messages\tags.hpp" />
+    <ClInclude Include="include\messages\msg_tags.hpp" />
     <ClInclude Include="include\messages\wrapper.hpp" />
-    <ClInclude Include="include\network\context_info.hpp" />
     <ClInclude Include="include\network\packet.hpp" />
     <ClInclude Include="include\network\request.hpp" />
     <ClInclude Include="include\network\udp_socket.hpp" />
     <ClInclude Include="include\file_parser.hpp" />
     <ClInclude Include="include\terminal.hpp" />
+    <ClInclude Include="include\world\missile_data.hpp" />
+    <ClInclude Include="include\world\player_data.hpp" />
+    <ClInclude Include="include\world\scene_data.hpp" />
+    <ClInclude Include="include\world\algorithms.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

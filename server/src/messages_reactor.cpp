@@ -11,7 +11,7 @@ namespace sk {
 			std::cout << "WARNING: message of tag "
 				<< msg::tag::to_string(wrapper.tag())
 				<< " received from " << player.address
-				<< " has not callback callback\n";
+				<< " has no callback\n";
 		};
 	}
 	

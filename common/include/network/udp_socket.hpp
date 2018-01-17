@@ -13,8 +13,10 @@ namespace sk {
 
 		class packet;
 
-		extern asio::ip::address localhost_ip;
 		using address_type = asio::ip::udp::endpoint;
+
+		extern asio::ip::address localhost_ip;
+		extern address_type server_address;
 
 		class udp_socket {
 		public:
