@@ -1,7 +1,8 @@
 
 # Skappie
 
-This is a personal project : a 2D network game engine.
+This is a personal project for a 2D game on network ...
+It ended being a sandbox for asynchronous code organisation and C++ tests.
 
 It's developped with MSVC and Visual Studio and uses recent C++ features.
 

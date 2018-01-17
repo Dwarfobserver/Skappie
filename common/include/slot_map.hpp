@@ -11,7 +11,7 @@
 namespace sk {
 
 	template<class T, template <class> class Allocator = std::allocator>
-	class slot_map { // To falsify keys : store gen in indices
+	class slot_map {
 	public:
 		struct key {
 			friend class slot_map;

@@ -4,22 +4,22 @@
 
 namespace sk::world {
 
-	player_data& create_player(scene_data& scene, std::string const& name) {
-		scene.players.emplace_back();
-		auto& p = scene.players.back();
+	slot_map<player_data>::key create_player(scene_data& scene, std::string const& name) {
+		auto key = scene.players.emplace();
+		auto& p = scene.players[key];
 		p.name = name;
 		p.data.id = scene.nextId++;
 		p.data.life = player_data::max_life;
-		return p;
+		return key;
 	}
 
-	missile_data& create_missile(scene_data& scene, player_data const& caster, point direction) {
-		scene.missiles.emplace_back();
-		auto& m = scene.missiles.back();
+	slot_map<missile_data>::key create_missile(scene_data& scene, player_data const& caster, point direction) {
+		auto key = scene.missiles.emplace();
+		auto& m = scene.missiles[key];
 		m.playerId = caster.data.id;
 		m.pos = caster.data.pos + direction * missile_data::radius;
 		m.speed = direction * missile_data::initial_speed;
-		return m;
+		return key;
 	}
 
 	namespace {
